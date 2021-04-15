@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fileSystemLib.h">
+    <ClInclude Include="FCB.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem.h">
@@ -30,6 +30,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="fileSystemLib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FCB.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

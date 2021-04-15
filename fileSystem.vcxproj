@@ -140,9 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="fileSystemLib.h" />
+    <ClInclude Include="FCB.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FCB.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="fileSystemLib.cpp" />
     <ClCompile Include="main.cpp" />
