@@ -21,15 +21,15 @@
     <ClInclude Include="FileSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DB.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FileSystem.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="fileSystemLib.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FCB.cpp">
