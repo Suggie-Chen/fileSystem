@@ -56,6 +56,10 @@ void FileSystem::test()
     swapToMemory(123, 70);
     printDir();
     printFreeSpaceList();
+
+    edit("root\\OS课设\\version1.0", "M 6\nY 3\nC  3\nK  10\nC  2\nW  b  5  40\nC  5\nP  20\nC  3\nQ\n");
+    show("root\\OS课设\\version1.0");
+    read("root\\OS课设\\version1.0");
 }
 
 void FileSystem::postOrderDelSubTree(Tree &t)//后序遍历删除文件子树
@@ -92,6 +96,68 @@ void FileSystem::preOrderTraverse(const Tree& t,int depth,vector<string> &s)//先
     }
 }
 
+string FileSystem::read(string path)
+{
+    FCB* fcb = matchPath(path);
+    vector<int> locations = fcb->location;
+    string result;
+    for (int i = 0; i < locations.size(); i++)
+    {
+        printf("%s", (char*)&storage[locations[i]]);
+        result = result + string((char*)&storage[locations[i]]);
+    }
+    cout << result;
+    return result;
+}
+
+int FileSystem::show(string path)
+{
+    FCB* fcb = matchPath(path);
+    vector<int> locations = fcb->location;
+    for (int i = 0; i < locations.size(); i++)
+    {
+        printf("%s", (char*)&storage[locations[i]]);
+    }
+    return 0;
+}
+
+int FileSystem::edit(string path,string input)
+{
+    FCB* fcb = matchPath(path);
+    vector<int> locations = fcb->location;
+
+    //先清空
+    for (int i = 0; i < locations.size(); i++)
+    {
+        //cout << sizeof(storage[i]);
+        memset(&storage[i], 0, DB_SIZE);
+    }
+    
+    double size = input.size();
+    int blocks = ceil(size /( DB_SIZE-1));
+    if (blocks > fcb->size)
+    {
+        cout << "输入文件过长！" << endl;
+        return 1;
+    }
+    for (int i = 0; i < blocks; i++)
+    {
+        if (i == blocks - 1)//到最后一块了
+        {
+            
+           // printf("@@@@@@@@%s", input.substr(0, DB_SIZE-1).c_str());
+            strcpy_s((char *)&storage[locations[i]], strlen(input.substr(0).c_str())+1,input.substr(0).c_str());
+        }
+        else
+        {
+           // printf("@@@@@@@@@%s", input.substr(0, DB_SIZE-1).c_str());
+            strcpy_s((char *)&storage[locations[i]], strlen(input.substr(0, DB_SIZE-1).c_str())+1,input.substr(0, DB_SIZE-1).c_str());//要减一的原因是得留一个位置给'\0'
+            input.erase(0, DB_SIZE);
+        }
+    }
+    return 0;
+}
+
 int FileSystem::swapToExternalStorage(int pid, int size)
 {
     int ans=create("root\\temp", "pid" + to_string(pid), 2,size);//在文件树root\temp下创建一个叫pidxxx的文件
@@ -106,7 +172,7 @@ int FileSystem::swapToExternalStorage(int pid, int size)
     return ans;
 }
 
-//图图、铭哥你们在调这个函数之前得保证有size块大小的空闲内存
+//图图、铭哥你们在调这个函数之前得保证有size块大小的空闲内存噢^_^
 int FileSystem::swapToMemory(int pid, int size)
 {
    //删除相应目录节点，释放相应外存
